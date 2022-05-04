@@ -57,7 +57,12 @@ async function rawByPost(url)
     const dataRaw = $('#postContent').children()
     let retVal = []
     if (dataRaw.length == 0) return null
-    for (var i = 0; i < dataRaw.length; i++) retVal.push($(dataRaw[i]).html().replace(/<a.*?>/ig,'').replace(/<\/a>/ig, '').trim().replaceAll('<li>', '<li style="margin-left:1.1rem">'))
+    for (var i = 0; i < dataRaw.length; i++)
+    {
+        let text = $(dataRaw[i]).html().replace(/<a.*?>/ig,'').replace(/<\/a>/ig, '').trim().replaceAll('<li>', '<li style="margin-left:1.1rem">')
+        if (dataRaw[i].tagName == 'h3') text = '<strong>' + text + '</strong>'
+        retVal.push(text)
+    }
     if (retVal.length > 0)
     {
         let text = retVal.join('<br>').trim().replaceAll('\n', '').replaceAll('<br><li style="margin-left:1.1rem">', '<li style="margin-left:1.1rem">').replace('<br><strong>Kapan </strong><strong>Harus ke </strong><strong>Dokter</strong>', '</li><br><strong>Kapan Harus ke Dokter</strong>').replace('<br>Kapan Harus ke Dokter', '</li><br><strong>Kapan Harus ke Dokter</strong>').split('</li><br>')

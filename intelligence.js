@@ -33,6 +33,9 @@ var self = module.exports = {
                     `Informasi yang disajikan dapat berupa penjelasan mengenai pengertian dari penyakit, penyebab, gejala, diagnosis, pengobatan, komplikasi, serta langkah pencegahannya`
                 ]
             }
+            case 'tanya_pencegahan':
+            case 'tanya_komplikasi':
+            case 'tanya_pengobatan':
             case 'tanya_diagnosis':
             case 'tanya_gejala':
             case 'tanya_penyebab': {
@@ -51,6 +54,7 @@ var self = module.exports = {
                     if (!resultUrl) return null
                     let found = resultUrl.filter(r => r.title.toLowerCase() === nama_penyakit.body.toLowerCase())[0]
                     if (!found) found = resultUrl[0]
+                    if (!found) return null
                     content = await getContent(`${found.source_url}/${shortIntent}`)
                 }
                 return content

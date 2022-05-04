@@ -69,7 +69,7 @@
         formtyping.classList.add('hideclass')
         if (typeof msg === typeof [])
         {
-            for(var i = 0; i < msg.length; i++) {
+            for (var i = 0; i < msg.length; i++) {
                 await delay(500)
                 createChatBubble('server', msg[i])
                 if (i == 0) window.scrollTo(0, document.body.scrollHeight)
@@ -77,7 +77,9 @@
             if (msg.length > 1)
             {
                 formalert.textContent = `Terdapat ${msg.length} pesan baru`
+                await delay(500)
                 formalert.classList.remove('hideclass')
+                formalert.classList.remove('animdispos')
             }
         }
         else createChatBubble('server', msg)
@@ -89,7 +91,9 @@
         formtyping.classList.remove('animdispos')
     })
 
-    window.addEventListener('scroll', () => {
+    window.addEventListener('scroll', async() => {
+        formalert.classList.add('animdispos')
+        await delay(500)
         formalert.classList.add('hideclass')
     })
 </script>
