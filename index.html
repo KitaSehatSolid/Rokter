@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rokter</title>
+    <link rel="stylesheet" type="text/css" href="./public/style.css" />
+    <script src="https://use.fontawesome.com/c3e58a7b64.js"></script>
+</head>
+<body>
+    <ul id="messages">
+        <li class="chatbot anim-enter">
+            <div class="box server">Untuk memulai percakapan, anda dapat menyapa bot terlebih dahulu</div>
+        </li>
+    </ul>
+    <div id="formalert" class="formalert hideclass">Terdapat beberapa pesan baru</div>
+    <div id="formtyping" class="formalert hideclass">
+        <div class="dot-title">Rokter sedang mengetik</div><div class="dot-flashing"></div></div>
+    <form id="form" action="">
+        <input id="input" autocomplete="off" autofocus="true" placeholder="Ketik pesan..."/>
+        <button><i class="fa fa-paper-plane" aria-hidden="true"></i>
+        </button>
+    </form>
+</body>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    var socket = io()
+    var form = document.getElementById('form')
+    var input = document.getElementById('input')
+    var formalert = document.getElementById('formalert')
+    var formtyping = document.getElementById('formtyping')
+    var ulist = document.getElementById('messages')
+
+    function createChatBubble(type, msg)
+    {
+        var messages = document.getElementById('messages')
+        var item = document.createElement('li')
+        item.classList.add('chatbot')
+        item.classList.add('anim-enter')
+        var data = document.createElement('div')
+        data.classList.add('box')
+        data.classList.add(type)
+        data.innerHTML = msg
+        item.appendChild(data)
+        messages.appendChild(item)
+    }
+
+    formalert.addEventListener("click", async(e) => {
+        formalert.classList.add('animdispos')
+        await delay(500)
+        formalert.classList.add('hideclass')
+    })
+
+    socket.emit('join', null)
+    form.addEventListener('submit', function(e) {
+        e.preventDefault()
+        if (input.value)
+        {
+            createChatBubble('client', input.value)
+            socket.emit('message', input.value)
+            input.value = ''
+            window.scrollTo(0, document.body.scrollHeight)
+        }
+    })
+
+    const delay = ms => new Promise(res => setTimeout(res, ms));
+
+    socket.on('message', async msg => {
+        formtyping.classList.add('animdispos')
+        await delay(500)
+        formtyping.classList.add('hideclass')
+        if (typeof msg === typeof [])
+        {
+            for(var i = 0; i < msg.length; i++) {
+                await delay(500)
+                createChatBubble('server', msg[i])
+                if (i == 0) window.scrollTo(0, document.body.scrollHeight)
+            }
+            if (msg.length > 1)
+            {
+                formalert.textContent = `Terdapat ${msg.length} pesan baru`
+                formalert.classList.remove('hideclass')
+            }
+        }
+        else createChatBubble('server', msg)
+    })
+
+    socket.on('processing', async () => {
+        await delay(500)
+        formtyping.classList.remove('hideclass')
+        formtyping.classList.remove('animdispos')
+    })
+
+    window.addEventListener('scroll', () => {
+        formalert.classList.add('hideclass')
+    })
+</script>
+</html>

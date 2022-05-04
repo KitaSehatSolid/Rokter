@@ -1,0 +1,204 @@
+body {
+    margin: 0;
+    padding-bottom: 3rem;
+    background: rgb(228, 237, 243);
+    font-family: "LatoWeb", sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+#form {
+    border-top: 1px solid rgb(223, 223, 223);
+    background: white;
+    position: fixed;
+    bottom: 0;
+    display: block;
+    left: 0;
+    right: 0;
+    display: flex;
+    padding: 1rem 0rem;
+    margin: 0;
+}
+.formalert {
+    width: 100%;
+    background-color: rgb(71, 84, 255);
+    color: white;
+    font-weight: 600;
+    font-size: 0.85rem;
+    bottom: 3.5rem;
+    padding: 0.5rem 3rem;
+    position: fixed;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box; 
+    -webkit-box-sizing: border-box;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+    cursor: pointer;
+    animation: alertEnter 0.5s;
+}
+
+.animdispos {
+    animation: alertExit 0.5s;
+}
+
+@keyframes alertExit {
+    to {
+        bottom: 0rem;
+    }
+    from {
+        bottom: 3.5rem;
+    }
+}
+
+@keyframes alertEnter {
+    from {
+        bottom: 0rem;
+    }
+    to {
+        bottom: 3.5rem;
+    }
+}
+
+#input {
+    border: none;
+    padding: 0 1.5rem;
+    flex-grow: 1;
+    margin: 0rem 0rem 0rem 1.5rem;
+    font-size: 1rem;
+}
+#input:focus {
+    outline: none;
+}
+#form > button {
+    color: rgb(177, 187, 190);
+    padding: 0 1rem;
+    width: 3rem;
+    margin: 0rem 1.5rem;
+    outline: none;
+    font-size: 1.3rem;
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+}
+#form > button:hover {
+    color: rgb(71, 84, 255);
+
+}
+
+#messages {
+    margin: 0;
+    padding: 0;
+    margin-bottom: 3rem;
+}
+
+.chatbot {
+    margin: 0.75rem 1.75rem;
+    display: block;
+}
+
+.box {
+    border-radius: 0.3rem;
+    padding: 0.8rem 1.3rem;
+    width: fit-content;
+    max-width: 80%;
+}
+
+.chatbot > .box > ul {
+    padding-left: 1.1em;
+    list-style-type: disc;
+}
+
+.client {
+    background: rgb(71, 84, 255);
+    margin-right: 0;
+    margin-left: auto;
+    width: fit-content;
+    color: white;
+}
+
+.server {
+    background: white;
+    color: #3b3738;
+}
+
+@keyframes animEnter {
+    from {
+        margin-top: 2.75rem;
+        opacity: 0;
+    }
+    to {
+        margin-top: 0.75rem;
+        opacity: 1;
+    }
+}
+
+.anim-enter {
+    animation: animEnter 0.5s forwards;
+}
+
+.hideclass {
+    display: none!important;
+}
+
+#formtyping {
+    display: flex;                  /* establish flex container */
+    flex-direction: row;            /* default value; can be omitted */
+    flex-wrap: nowrap;              /* default value; can be omitted */
+    justify-content: left; /* switched from default (flex-start, see below) */
+}
+
+.dot-title {
+    width: fit-content;
+}
+
+.dot-flashing {
+    position: relative;
+    left: 0.3rem;
+    width: 0.2rem;
+    height: 0.2rem;
+    border-radius: 5px;
+    background-color: #9880ff;
+    color: #9880ff;
+    animation: dotFlashing 1s infinite linear alternate;
+    animation-delay: .5s;
+    top: 0.75rem;
+  }
+  
+  .dot-flashing::before, .dot-flashing::after {
+    content: '';
+    display: inline-block;
+    position: absolute;
+  }
+  
+  .dot-flashing::before {
+    left: 0.3rem;
+    width: 0.2rem;
+    height: 0.2rem;
+    border-radius: 5px;
+    background-color: #9880ff;
+    color: #9880ff;
+    animation: dotFlashing 1s infinite alternate;
+    animation-delay: 0s;
+  }
+  
+  .dot-flashing::after {
+    left: 0.65rem;
+    width: 0.2rem;
+    height: 0.2rem;
+    border-radius: 5px;
+    background-color: #9880ff;
+    color: #9880ff;
+    animation: dotFlashing 1s infinite alternate;
+    animation-delay: 1s;
+  }
+  
+  @keyframes dotFlashing {
+    0% {
+      background-color: #9880ff;
+    }
+    50%,
+    100% {
+      background-color: #ebe6ff;
+    }
+  }
