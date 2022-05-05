@@ -99,12 +99,32 @@ async function rawByPost2(url, splitter)
     if (retVal.length > 0) return retVal.join('<br>').trim().replaceAll('\n', '').replaceAll('<br></strong><br>', '</strong><br>').replaceAll('<br><li style="margin-left:1.1rem">', '<li style="margin-left:1.1rem">').split('</li><br>')
     else return null
 }
+async function rawByPostFirst(url)
+{
+    const response = await axios.get(url)
+    const html = response.data
+    const $ = cheerio.load(html)
+    const dataRaw = $('.post-content').children()
+    let retVal = []
+    if (dataRaw.length == 0) return null
+    if (dataRaw.length > 0)
+    {
+        const img = $('img.alignnone')
+        retVal.push($(dataRaw[0]).text())
+        retVal.push('[img]' + $(img[0]).attr('src'))
+    }
+    return retVal
+}
 module.exports = {
     getAllPenyakit: async () => {
         const url = `${ROOT_URL}/penyakit-a-z`
         const data = await rawByAlphabet(url)
         return data
     },
+    /**
+     * @param {String} searchkey 
+     * @param {String} searchpage 
+     */
     getSearchResult: async(searchkey, searchpage) => {
         const key = searchkey || ""
         const page = searchpage || 1
@@ -113,15 +133,17 @@ module.exports = {
         return data
     },
     /**
-     * 
-     * @param {String} url 
-     * @returns 
+     * @param {String} url
+     * @param {String} splitter
      */
     getContent: async(url, splitter = '') => {
         let data = null
         if (splitter.length > 0) data = await rawByPost2(url, splitter)
         else data = await rawByPost(url)
         return data
+    },
+    getContentFirst: async(url) => {
+        return await rawByPostFirst(url)
     }
 }
 

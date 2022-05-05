@@ -8,7 +8,7 @@
 <body>
     <ul id="messages">
         <li class="chatbot anim-enter">
-            <div class="box server">Untuk memulai percakapan, anda dapat menyapa bot terlebih dahulu</div>
+            <div class="box server">Untuk memulai percakapan, anda dapat menyapa bot terlebih dahulu, seperti halo atau hai.</div>
         </li>
     </ul>
     <div id="formalert" class="formalert hideclass">Terdapat beberapa pesan baru</div>
@@ -43,6 +43,25 @@
         messages.appendChild(item)
     }
 
+    function createChatBubbleImg(type, msg)
+    {
+        var messages = document.getElementById('messages')
+        var item = document.createElement('li')
+        item.classList.add('chatbot')
+        item.classList.add('anim-enter')
+        var data = document.createElement('img')
+        data.setAttribute('src', msg.substring(5))
+        data.setAttribute('style', 'width: 20rem; border-radius: 0.35rem;')
+        item.appendChild(data)
+        messages.appendChild(item)
+    }
+    
+    formtyping.addEventListener("click", async(e) => {
+        formalert.classList.add('animdispos')
+        await delay(500)
+        formalert.classList.add('hideclass')
+    })
+
     formalert.addEventListener("click", async(e) => {
         formalert.classList.add('animdispos')
         await delay(500)
@@ -71,7 +90,8 @@
         {
             for (var i = 0; i < msg.length; i++) {
                 await delay(500)
-                createChatBubble('server', msg[i])
+                if (msg[i].startsWith('[img]')) createChatBubbleImg('server', msg[i])
+                else createChatBubble('server', msg[i])
                 if (i == 0) window.scrollTo(0, document.body.scrollHeight)
             }
             if (msg.length > 1)
