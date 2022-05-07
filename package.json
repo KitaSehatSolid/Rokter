@@ -1,10 +1,10 @@
 {
   "name": "rokter",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node index.js",
+    "start": "node index.js"
   },
   "author": "",
   "license": "MIT",
@@ -16,5 +16,18 @@
     "express": "^4.18.1",
     "node-wit": "^6.2.1",
     "socket.io": "^4.5.0"
-  }
+  },
+  "devDependencies": {
+    "node": "^16.14.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KitaSehatSolid/Rokter.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/KitaSehatSolid/Rokter/issues"
+  },
+  "homepage": "https://github.com/KitaSehatSolid/Rokter#readme",
+  "description": ""
 }

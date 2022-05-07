@@ -26,7 +26,7 @@ body {
     color: white;
     font-weight: 600;
     font-size: 0.85rem;
-    bottom: 3.5rem;
+    bottom: 3rem;
     padding: 0.5rem 3rem;
     position: fixed;
     box-sizing: border-box;
@@ -47,7 +47,7 @@ body {
         bottom: 0rem;
     }
     from {
-        bottom: 3.5rem;
+        bottom: 3rem;
     }
 }
 
@@ -56,7 +56,7 @@ body {
         bottom: 0rem;
     }
     to {
-        bottom: 3.5rem;
+        bottom: 3rem;
     }
 }
 

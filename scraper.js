@@ -4,6 +4,14 @@ const cheerio = require('cheerio')
 
 const ROOT_URL = process.env.ROOT_URL
 
+function escapeRegExp(string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+}
+function replaceAll(str, match, replacement){
+   return str.replace(new RegExp(escapeRegExp(match), 'g'), ()=>replacement);
+}
+
+
 async function rawByAlphabet(url)
 {
     const response = await axios(url)
@@ -59,13 +67,13 @@ async function rawByPost(url)
     if (dataRaw.length == 0) return null
     for (var i = 0; i < dataRaw.length; i++)
     {
-        let text = $(dataRaw[i]).html().replace(/<a.*?>/ig,'').replace(/<\/a>/ig, '').trim().replaceAll('<li>', '<li style="margin-left:1.1rem">')
+        let text = replaceAll($(dataRaw[i]).html().replace(/<a.*?>/ig,'').replace(/<\/a>/ig, '').trim(), '<li>', '<li style="margin-left:1.1rem">')
         if (dataRaw[i].tagName == 'h3') text = '<strong>' + text + '</strong>'
         retVal.push(text)
     }
     if (retVal.length > 0)
     {
-        let text = retVal.join('<br>').trim().replaceAll('\n', '').replaceAll('<br><li style="margin-left:1.1rem">', '<li style="margin-left:1.1rem">').replace('<br><strong>Kapan </strong><strong>Harus ke </strong><strong>Dokter</strong>', '</li><br><strong>Kapan Harus ke Dokter</strong>').replace('<br>Kapan Harus ke Dokter', '</li><br><strong>Kapan Harus ke Dokter</strong>').split('</li><br>')
+        let text = replaceAll(replaceAll(retVal.join('<br>').trim(), '\n', ''),'<br><li style="margin-left:1.1rem">', '<li style="margin-left:1.1rem">').replace('<br><strong>Kapan </strong><strong>Harus ke </strong><strong>Dokter</strong>', '</li><br><strong>Kapan Harus ke Dokter</strong>').replace('<br>Kapan Harus ke Dokter', '</li><br><strong>Kapan Harus ke Dokter</strong>').split('</li><br>')
         return text
     } 
     else return null
@@ -94,9 +102,9 @@ async function rawByPost2(url, splitter)
             store = true
             continue
         }
-        if (store) retVal.push(text.replace(/<a.*?>/ig,'').replace(/<\/a>/ig, '').trim().replaceAll('<li>', '<li style="margin-left:1.1rem">'))
+        if (store) retVal.push(replaceAll(text.replace(/<a.*?>/ig,'').replace(/<\/a>/ig, '').trim(),'<li>', '<li style="margin-left:1.1rem">'))
     }
-    if (retVal.length > 0) return retVal.join('<br>').trim().replaceAll('\n', '').replaceAll('<br></strong><br>', '</strong><br>').replaceAll('<br><li style="margin-left:1.1rem">', '<li style="margin-left:1.1rem">').split('</li><br>')
+    if (retVal.length > 0) return replaceAll(replaceAll(replaceAll(retVal.join('<br>').trim(),'\n', ''),'<br></strong><br>', '</strong><br>'),'<br><li style="margin-left:1.1rem">', '<li style="margin-left:1.1rem">').split('</li><br>')
     else return null
 }
 async function rawByPostFirst(url)
